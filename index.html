@@ -34,14 +34,6 @@
             letter-spacing: -2px;
         }
 
-        .decorative-line {
-            width: 120px;
-            height: 5px;
-            background: linear-gradient(90deg, #42a5f5, #64b5f6, #90caf9);
-            margin: 25px auto;
-            border-radius: 3px;
-        }
-
         .container {
             max-width: 900px;
             margin: 0 auto;
@@ -354,49 +346,6 @@
                 CRC is a powerful error detection method widely used in digital networks and storage devices. It works by treating binary data as a polynomial and performing polynomial division using a generator polynomial.
             </p>
             
-            <div class="feature-box">
-                <h4>Key Features:</h4>
-                <ul>
-                    <li><strong>Type:</strong> Error Detection Only</li>
-                    <li><strong>Used In:</strong> Ethernet, WiFi, USB, ZIP files, PNG images</li>
-                    <li><strong>Strength:</strong> Detects burst errors efficiently</li>
-                </ul>
-            </div>
-
-            <div class="diagram">
-                <div class="flow-step">
-                    <div class="flow-label">Step 1: Original Data</div>
-                    <div class="flow-desc">Binary data that needs to be transmitted</div>
-                    <div class="bit-row">
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">0</div>
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">0</div>
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">1</div>
-                    </div>
-                </div>
-
-                <div class="arrow-down">↓</div>
-
-                <div class="flow-step">
-                    <div class="flow-label">Step 2: Append Zeros</div>
-                    <div class="flow-desc">Add zeros equal to polynomial degree</div>
-                    <div class="bit-row">
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">0</div>
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">0</div>
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell data-bit">1</div>
-                        <div class="bit-cell highlight">0</div>
-                        <div class="bit-cell highlight">0</div>
-                        <div class="bit-cell highlight">0</div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="explanation-card">
@@ -405,14 +354,6 @@
                 Checksum is a simple error detection method that works by summing blocks of data. The data is divided into fixed-size blocks, added together, and the one's complement becomes the checksum.
             </p>
             
-            <div class="feature-box">
-                <h4>Key Features:</h4>
-                <ul>
-                    <li><strong>Type:</strong> Error Detection Only</li>
-                    <li><strong>Used In:</strong> TCP/IP, UDP, IPv4 headers</li>
-                    <li><strong>Strength:</strong> Fast and simple</li>
-                </ul>
-            </div>
         </div>
 
         <div class="explanation-card">
@@ -421,14 +362,6 @@
                 Hamming Code is an error correction method that can detect and correct errors automatically. It places parity bits at power-of-2 positions within the data.
             </p>
             
-            <div class="feature-box">
-                <h4>Key Features:</h4>
-                <ul>
-                    <li><strong>Type:</strong> Error Detection AND Correction</li>
-                    <li><strong>Used In:</strong> RAM memory (ECC), satellite communications</li>
-                    <li><strong>Strength:</strong> Can correct single-bit errors</li>
-                </ul>
-            </div>
         </div>
     </div>
 
