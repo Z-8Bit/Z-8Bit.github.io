@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Detection & Correction Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #f0f4f8;
+            color: #1565c0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(227,242,253,0.95) 100%);
+            padding: 80px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(21, 101, 192, 0.15);
+        }
+
+        .header h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            color: #1565c0;
+            letter-spacing: -2px;
+        }
+
+        .decorative-line {
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(90deg, #42a5f5, #64b5f6, #90caf9);
+            margin: 25px auto;
+            border-radius: 3px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(21, 101, 192, 0.15);
+            position: relative;
+            border: 1px solid rgba(66, 165, 245, 0.2);
+            margin-bottom: 35px;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #42a5f5, #1976d2);
+        }
+
+        .card h2 {
+            color: #1565c0;
+            font-size: 1.9em;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 12px;
+            color: #1976d2;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px 20px;
+            background: #f5f9fd;
+            border: 2px solid #bbdefb;
+            border-radius: 12px;
+            color: #1565c0;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #42a5f5;
+        }
+
+        .options {
+            display: flex;
+            gap: 30px;
+            margin: 25px 0;
+            justify-content: center;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: #f5f9fd;
+            border-radius: 10px;
+        }
+
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option label {
+            margin: 0;
+            cursor: pointer;
+            text-transform: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #42a5f5 0%, #1976d2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(21, 101, 192, 0.15);
+            border-left: 5px solid #42a5f5;
+        }
+
+        .result-card h3 {
+            color: #1565c0;
+            margin-bottom: 25px;
+            font-size: 1.7em;
+            text-align: center;
+        }
+
+        .result-item {
+            margin: 18px 0;
+            padding: 15px;
+            background: #f5f9fd;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .result-item strong {
+            color: #1976d2;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .result-value {
+            color: #1565c0;
+            font-family: 'Courier New', monospace;
+            background: #ffffff;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: 2px solid #bbdefb;
+            word-break: break-all;
+            display: inline-block;
+        }
+
+        .error {
+            color: #c62828;
+            background: #ffebee;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .explanation-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 45px;
+            box-shadow: 0 10px 40px rgba(21, 101, 192, 0.15);
+            margin-bottom: 35px;
+        }
+
+        .explanation-card h3 {
+            color: #1565c0;
+            font-size: 2em;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 3px solid #e3f2fd;
+            padding-bottom: 20px;
+        }
+
+        .explanation-card p {
+            color: #1976d2;
+            line-height: 1.9;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .feature-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .feature-box h4 {
+            color: #1565c0;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .feature-box ul {
+            color: #1976d2;
+            margin-left: 25px;
+            line-height: 1.9;
+        }
+
+        .diagram {
+            background: linear-gradient(135deg, #f5f9fd 0%, #e3f2fd 100%);
+            border: 2px solid #bbdefb;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+
+        .flow-step {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            border-left: 4px solid #42a5f5;
+        }
+
+        .flow-label {
+            color: #1565c0;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .flow-desc {
+            color: #1976d2;
+            text-align: center;
+        }
+
+        .bit-row {
+            display: flex;
+            gap: 6px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .bit-cell {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 700;
+            background: white;
+            border: 2px solid #bbdefb;
+            color: #1565c0;
+        }
+
+        .bit-cell.highlight {
+            background: linear-gradient(135deg, #42a5f5, #1976d2);
+            color: white;
+        }
+
+        .bit-cell.data-bit {
+            background: linear-gradient(135deg, #64b5f6, #42a5f5);
+            color: white;
+        }
+
+        .arrow-down {
+            text-align: center;
+            color: #42a5f5;
+            font-size: 2em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Error Detection & Correction Calculator</h1>
+        <div class="decorative-line"></div>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h2>Input Configuration</h2>
+            
+            <div class="input-group">
+                <label for="dataInput">Data Input</label>
+                <input type="text" id="dataInput" placeholder="Enter binary (e.g., 1101011) or text" value="1101011">
+            </div>
+            
+            <div class="options">
+                <div class="option">
+                    <input type="radio" id="binary" name="inputType" value="binary" checked>
+                    <label for="binary">Binary Input</label>
+                </div>
+                <div class="option">
+                    <input type="radio" id="text" name="inputType" value="text">
+                    <label for="text">Text Input</label>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="polynomial">CRC Generator Polynomial</label>
+                <input type="text" id="polynomial" placeholder="Binary polynomial" value="1011">
+            </div>
+
+            <button onclick="calculate()">Calculate All Methods</button>
+        </div>
+
+        <div id="results"></div>
+
+        <div class="explanation-card">
+            <h3>CRC (Cyclic Redundancy Check)</h3>
+            <p>
+                CRC is a powerful error detection method widely used in digital networks and storage devices. It works by treating binary data as a polynomial and performing polynomial division using a generator polynomial.
+            </p>
+            
+            <div class="feature-box">
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Type:</strong> Error Detection Only</li>
+                    <li><strong>Used In:</strong> Ethernet, WiFi, USB, ZIP files, PNG images</li>
+                    <li><strong>Strength:</strong> Detects burst errors efficiently</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <div class="flow-step">
+                    <div class="flow-label">Step 1: Original Data</div>
+                    <div class="flow-desc">Binary data that needs to be transmitted</div>
+                    <div class="bit-row">
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">0</div>
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">0</div>
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">1</div>
+                    </div>
+                </div>
+
+                <div class="arrow-down">↓</div>
+
+                <div class="flow-step">
+                    <div class="flow-label">Step 2: Append Zeros</div>
+                    <div class="flow-desc">Add zeros equal to polynomial degree</div>
+                    <div class="bit-row">
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">0</div>
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">0</div>
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell data-bit">1</div>
+                        <div class="bit-cell highlight">0</div>
+                        <div class="bit-cell highlight">0</div>
+                        <div class="bit-cell highlight">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <h3>Checksum</h3>
+            <p>
+                Checksum is a simple error detection method that works by summing blocks of data. The data is divided into fixed-size blocks, added together, and the one's complement becomes the checksum.
+            </p>
+            
+            <div class="feature-box">
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Type:</strong> Error Detection Only</li>
+                    <li><strong>Used In:</strong> TCP/IP, UDP, IPv4 headers</li>
+                    <li><strong>Strength:</strong> Fast and simple</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="explanation-card">
+            <h3>Hamming Code</h3>
+            <p>
+                Hamming Code is an error correction method that can detect and correct errors automatically. It places parity bits at power-of-2 positions within the data.
+            </p>
+            
+            <div class="feature-box">
+                <h4>Key Features:</h4>
+                <ul>
+                    <li><strong>Type:</strong> Error Detection AND Correction</li>
+                    <li><strong>Used In:</strong> RAM memory (ECC), satellite communications</li>
+                    <li><strong>Strength:</strong> Can correct single-bit errors</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            var dataInput = document.getElementById('dataInput').value.trim();
+            var inputType = document.querySelector('input[name="inputType"]:checked').value;
+            var polynomial = document.getElementById('polynomial').value.trim();
+            var resultsDiv = document.getElementById('results');
+
+            resultsDiv.innerHTML = '';
+
+            if (!dataInput) {
+                resultsDiv.innerHTML = '<div class="error">Please enter data input!</div>';
+                return;
+            }
+
+            var binaryData = '';
+            
+            if (inputType === 'text') {
+                binaryData = textToBinary(dataInput);
+            } else {
+                if (!/^[01]+$/.test(dataInput)) {
+                    resultsDiv.innerHTML = '<div class="error">Invalid binary input! Please enter only 0s and 1s.</div>';
+                    return;
+                }
+                binaryData = dataInput;
+            }
+
+            if (!/^[01]+$/.test(polynomial) || polynomial.length < 2) {
+                resultsDiv.innerHTML = '<div class="error">Invalid polynomial! Please enter a valid binary polynomial.</div>';
+                return;
+            }
+
+            try {
+                var crcResult = calculateCRC(binaryData, polynomial);
+                var checksumResult = calculateChecksum(binaryData);
+                var hammingResult = calculateHamming(binaryData);
+
+                displayResults(binaryData, crcResult, checksumResult, hammingResult, inputType === 'text' ? dataInput : null);
+            } catch (error) {
+                resultsDiv.innerHTML = '<div class="error">Error: ' + error.message + '</div>';
+            }
+        }
+
+        function textToBinary(text) {
+            var result = '';
+            for (var i = 0; i < text.length; i++) {
+                var binary = text.charCodeAt(i).toString(2);
+                while (binary.length < 8) {
+                    binary = '0' + binary;
+                }
+                result += binary;
+            }
+            return result;
+        }
+
+        function calculateCRC(data, polynomial) {
+            var polyLen = polynomial.length;
+            var zeros = '';
+            for (var i = 0; i < polyLen - 1; i++) {
+                zeros += '0';
+            }
+            var augmented = data + zeros;
+            var temp = augmented;
+
+            for (var i = 0; i <= temp.length - polyLen; i++) {
+                if (temp[i] === '1') {
+                    var newTemp = '';
+                    for (var j = 0; j < polyLen; j++) {
+                        newTemp += (temp[i + j] === polynomial[j]) ? '0' : '1';
+                    }
+                    temp = temp.substring(0, i) + newTemp + temp.substring(i + polyLen);
+                }
+            }
+
+            var crc = temp.substring(temp.length - (polyLen - 1));
+            var codeword = data + crc;
+
+            return {
+                crc: crc,
+                codeword: codeword,
+                polynomial: polynomial
+            };
+        }
+
+        function calculateChecksum(data) {
+            var blockSize = 8;
+            var sum = 0;
+            
+            for (var i = 0; i < data.length; i += blockSize) {
+                var block = data.substring(i, i + blockSize);
+                while (block.length < blockSize) {
+                    block += '0';
+                }
+                sum += parseInt(block, 2);
+            }
+
+            var checksum = sum.toString(2);
+            if (checksum.length > blockSize) {
+                checksum = checksum.substring(checksum.length - blockSize);
+            } else {
+                while (checksum.length < blockSize) {
+                    checksum = '0' + checksum;
+                }
+            }
+
+            var complemented = '';
+            for (var i = 0; i < checksum.length; i++) {
+                complemented += (checksum[i] === '0') ? '1' : '0';
+            }
+
+            return {
+                checksum: complemented,
+                sum: sum
+            };
+        }
+
+        function calculateHamming(data) {
+            var m = data.length;
+            var r = 0;
+            while (Math.pow(2, r) < m + r + 1) {
+                r++;
+            }
+
+            var n = m + r;
+            var hamming = new Array(n + 1);
+            for (var i = 0; i <= n; i++) {
+                hamming[i] = 0;
+            }
+            
+            var j = 0;
+            for (var i = 1; i <= n; i++) {
+                if (Math.log2(i) % 1 !== 0) {
+                    hamming[i] = parseInt(data[j]);
+                    j++;
+                }
+            }
+
+            for (var i = 0; i < r; i++) {
+                var pos = Math.pow(2, i);
+                var parity = 0;
+                
+                for (var j = 1; j <= n; j++) {
+                    if (j & pos) {
+                        parity ^= hamming[j];
+                    }
+                }
+                
+                hamming[pos] = parity;
+            }
+
+            var code = '';
+            for (var i = 1; i <= n; i++) {
+                code += hamming[i];
+            }
+
+            return {
+                code: code,
+                parityBits: r,
+                dataBits: m,
+                totalBits: n
+            };
+        }
+
+        function displayResults(originalData, crc, checksum, hamming, originalText) {
+            var resultsDiv = document.getElementById('results');
+            var html = '';
+
+            if (originalText) {
+                html += '<div class="result-card">';
+                html += '<h3>Input Data</h3>';
+                html += '<div class="result-item">';
+                html += '<strong>Original Text:</strong>';
+                html += '<div class="result-value">' + originalText + '</div>';
+                html += '</div>';
+                html += '<div class="result-item">';
+                html += '<strong>Binary:</strong>';
+                html += '<div class="result-value">' + originalData + '</div>';
+                html += '</div>';
+                html += '</div>';
+            } else {
+                html += '<div class="result-card">';
+                html += '<h3>Input Data</h3>';
+                html += '<div class="result-item">';
+                html += '<strong>Binary Data:</strong>';
+                html += '<div class="result-value">' + originalData + '</div>';
+                html += '</div>';
+                html += '</div>';
+            }
+
+            html += '<div class="result-card">';
+            html += '<h3>CRC Results</h3>';
+            html += '<div class="result-item">';
+            html += '<strong>Generator Polynomial:</strong>';
+            html += '<div class="result-value">' + crc.polynomial + '</div>';
+            html += '</div>';
+            html += '<div class="result-item">';
+            html += '<strong>CRC Checksum:</strong>';
+            html += '<div class="result-value">' + crc.crc + '</div>';
+            html += '</div>';
+            html += '<div class="result-item">';
+            html += '<strong>Final Codeword:</strong>';
+            html += '<div class="result-value">' + crc.codeword + '</div>';
+            html += '</div>';
+            html += '</div>';
+
+            html += '<div class="result-card">';
+            html += '<h3>Checksum Results</h3>';
+            html += '<div class="result-item">';
+            html += '<strong>Sum (Decimal):</strong>';
+            html += '<div class="result-value">' + checksum.sum + '</div>';
+            html += '</div>';
+            html += '<div class="result-item">';
+            html += '<strong>Checksum:</strong>';
+            html += '<div class="result-value">' + checksum.checksum + '</div>';
+            html += '</div>';
+            html += '</div>';
+
+            html += '<div class="result-card">';
+            html += '<h3>Hamming Code Results</h3>';
+            html += '<div class="result-item">';
+            html += '<strong>Data Bits:</strong>';
+            html += '<div class="result-value">' + hamming.dataBits + '</div>';
+            html += '</div>';
+            html += '<div class="result-item">';
+            html += '<strong>Parity Bits:</strong>';
+            html += '<div class="result-value">' + hamming.parityBits + '</div>';
+            html += '</div>';
+            html += '<div class="result-item">';
+            html += '<strong>Total Bits:</strong>';
+            html += '<div class="result-value">' + hamming.totalBits + '</div>';
+            html += '</div>';
+            html += '<div class="result-item">';
+            html += '<strong>Hamming Code:</strong>';
+            html += '<div class="result-value">' + hamming.code + '</div>';
+            html += '</div>';
+            html += '</div>';
+
+            resultsDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
